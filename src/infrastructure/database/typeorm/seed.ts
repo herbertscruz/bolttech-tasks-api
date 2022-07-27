@@ -16,7 +16,7 @@ AppDataSource.initialize()
         {
           name: 'John Wick',
           email: 'johnwick@bolttech.com',
-          password: CryptoJS.AES.encrypt(
+          password: CryptoJS.HmacSHA256(
             'Beloveddog2014',
             env.API.CRYPTO_SECRET,
           ).toString(),

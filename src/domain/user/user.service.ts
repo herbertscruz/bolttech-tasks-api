@@ -64,6 +64,6 @@ export default class UserService {
   }
 
   private generatePassword(rawPassword: string) {
-    return CryptoJS.AES.encrypt(rawPassword, env.API.CRYPTO_SECRET).toString();
+    return CryptoJS.HmacSHA256(rawPassword, env.API.CRYPTO_SECRET).toString();
   }
 }

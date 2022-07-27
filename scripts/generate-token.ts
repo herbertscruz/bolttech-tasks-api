@@ -12,8 +12,12 @@ AppDataSource.initialize()
       where: { id: 1 },
     });
     const token = jwt.sign(
-      pick(user, ['id', 'name', 'createdAt']),
-      env.API.JWT_SECRET,
+      {
+        ...pick(user, ['id', 'name']),
+        createdAt: new Date(),
+        ttl: env.JWT.TTL_MINUTES,
+      },
+      env.JWT.SECRET,
     );
     debug('Username: %s', user?.name);
     debug('Token: %s', token);

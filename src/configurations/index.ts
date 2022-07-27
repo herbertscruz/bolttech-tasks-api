@@ -8,8 +8,11 @@ const env = {
   NODE_ENV: nodeEnv,
   API: {
     PORT: Number(process.env.API_PORT) || 3000,
-    JWT_SECRET: process.env.JWT_SECRET || 'jwt_token',
     CRYPTO_SECRET: process.env.CRYPTO_SECRET || 'crypto_token',
+  },
+  JWT: {
+    SECRET: process.env.JWT_SECRET || 'jwt_token',
+    TTL_MINUTES: process.env.JWT_TTL_MINUTES || 30,
   },
   DB: {
     HOST: process.env.DB_HOST || 'localhost',

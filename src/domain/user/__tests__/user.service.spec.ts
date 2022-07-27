@@ -33,12 +33,15 @@ describe('UserService', () => {
     userService = new UserService(userRepository);
   });
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('When the user needs to get their basic data', () => {
     test('should succeed when submitting an existing user', async () => {
       // Given
       const findOne = jest
         .spyOn(userRepository, 'findOne')
-        .mockReset()
         .mockResolvedValueOnce(userMock);
 
       // When
@@ -57,7 +60,6 @@ describe('UserService', () => {
       // Given
       const findOne = jest
         .spyOn(userRepository, 'findOne')
-        .mockReset()
         .mockResolvedValueOnce(null);
       const userId = 2;
 
@@ -78,7 +80,6 @@ describe('UserService', () => {
       // Given
       const findOne = jest
         .spyOn(userRepository, 'findOne')
-        .mockReset()
         .mockResolvedValueOnce(userMock);
 
       // When
@@ -99,7 +100,6 @@ describe('UserService', () => {
       // Given
       const create = jest
         .spyOn(userRepository, 'create')
-        .mockReset()
         .mockResolvedValueOnce({
           ...userMock,
           password: faker.internet.password(),
@@ -127,11 +127,9 @@ describe('UserService', () => {
       // Given
       const findOne = jest
         .spyOn(userRepository, 'findOne')
-        .mockReset()
         .mockResolvedValueOnce(userMock);
       const update = jest
         .spyOn(userRepository, 'update')
-        .mockReset()
         .mockResolvedValueOnce(userMock);
 
       // When
@@ -161,7 +159,6 @@ describe('UserService', () => {
       // Given
       const findOne = jest
         .spyOn(userRepository, 'findOne')
-        .mockReset()
         .mockResolvedValueOnce(null);
 
       // When
@@ -183,11 +180,9 @@ describe('UserService', () => {
       // Given
       const findOne = jest
         .spyOn(userRepository, 'findOne')
-        .mockReset()
         .mockResolvedValueOnce(userMock);
       const update = jest
         .spyOn(userRepository, 'update')
-        .mockReset()
         .mockResolvedValueOnce(userMock);
 
       // When

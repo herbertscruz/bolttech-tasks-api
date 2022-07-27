@@ -25,6 +25,9 @@ const env = {
   ERROR: {
     E001: 'System error',
     E002: 'User not found',
+    E003: "User not allowed to query another user's data",
+    E004: "User not allowed to update another user's data",
+    E005: "User not allowed to change another user's password",
   },
   CONSTANTS: {},
 };

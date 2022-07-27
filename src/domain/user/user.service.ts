@@ -4,13 +4,12 @@ import IUserRepository from './user.repository.interface';
 import CryptoJS from 'crypto-js';
 import env from '../../configurations';
 import ValidationError from '../common/validation-error.exception';
+import IUserMeResponse from './user-me-response.interface';
 
 export default class UserService {
   constructor(private readonly userRepository: IUserRepository) {}
 
-  async getSummaryData(
-    userId: number,
-  ): Promise<{ id?: number; name?: string; createdAt?: Date } | null> {
+  async getSummaryData(userId: number): Promise<IUserMeResponse | null> {
     const result = await this.getCompleteData(userId);
     if (result === null) return null;
     return pick(result, ['id', 'name', 'createdAt']);
@@ -24,7 +23,7 @@ export default class UserService {
     return { ...result, password: '' } as User;
   }
 
-  async createUser(user: User) {
+  async createUser(user: User): Promise<User> {
     user = omit(user, ['id', 'createdAt', 'updatedAt']);
     user = Object.assign({}, user, {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -33,7 +32,7 @@ export default class UserService {
     return this.userRepository.create(user);
   }
 
-  async updateUser(userId: number, user: User) {
+  async updateUser(userId: number, user: User): Promise<User> {
     let result = await this.getCompleteDataWithNullCheck(userId);
     result = omit(Object.assign({}, result, omit(user, 'id')), [
       'password',
@@ -47,7 +46,7 @@ export default class UserService {
   async updateUserPassword(
     userId: number,
     newPassword: string,
-  ): Promise<{ id?: number; name?: string; createdAt?: Date }> {
+  ): Promise<IUserMeResponse> {
     let result = await this.getCompleteDataWithNullCheck(userId);
     result = {
       id: result.id,
@@ -63,7 +62,7 @@ export default class UserService {
     return result;
   }
 
-  private generatePassword(rawPassword: string) {
+  private generatePassword(rawPassword: string): string {
     return CryptoJS.HmacSHA256(rawPassword, env.API.CRYPTO_SECRET).toString();
   }
 }

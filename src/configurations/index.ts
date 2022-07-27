@@ -9,6 +9,7 @@ const env = {
   API: {
     PORT: Number(process.env.API_PORT) || 3000,
     JWT_SECRET: process.env.JWT_SECRET || 'jwt_token',
+    CRYPTO_SECRET: process.env.CRYPTO_SECRET || 'crypto_token',
   },
   DB: {
     HOST: process.env.DB_HOST || 'localhost',

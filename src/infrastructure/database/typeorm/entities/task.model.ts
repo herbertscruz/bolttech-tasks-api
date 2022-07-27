@@ -5,7 +5,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { TaskStatus } from '../../../../domain/task/task.entity';
+import { TaskStatus } from '../../../../domain/project/project.entity';
 import ProjectModel from './project.model';
 
 @Entity('tasks')

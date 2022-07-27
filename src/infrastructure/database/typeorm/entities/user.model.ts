@@ -21,6 +21,9 @@ export default class UserModel {
   private email!: string;
 
   @Column()
+  private password!: string;
+
+  @Column()
   private active!: boolean;
 
   @CreateDateColumn()

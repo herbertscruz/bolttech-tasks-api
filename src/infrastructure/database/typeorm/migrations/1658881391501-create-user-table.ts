@@ -32,8 +32,14 @@ export class createUserTable1658881391501 implements MigrationInterface {
           comment: "User's email",
         },
         {
+          name: 'password',
+          type: 'varchar',
+          comment: "User's password",
+        },
+        {
           name: 'active',
           type: 'boolean',
+          default: true,
           comment: 'User activation status',
         },
         {

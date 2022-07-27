@@ -29,7 +29,7 @@ export default class UserController implements IController {
 
   async createUser(req: Request, res: Response): Promise<Response<void>> {
     await this.userService.createUser(req.body);
-    return res.status(201);
+    return res.status(201).send();
   }
 
   async updateUser(req: Request, res: Response): Promise<Response<User>> {

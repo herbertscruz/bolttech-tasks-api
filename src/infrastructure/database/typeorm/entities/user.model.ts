@@ -7,11 +7,12 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import User from '../../../../domain/user/user.entity';
+import IModel from '../model.interface';
 import ProjectModel from './project.model';
 import TokenModel from './token.model';
 
 @Entity('users')
-export default class UserModel {
+export default class UserModel implements IModel<User> {
   @PrimaryGeneratedColumn()
   public id?: number;
 
@@ -31,7 +32,7 @@ export default class UserModel {
   public createdAt?: Date;
 
   @UpdateDateColumn()
-  public updatedAt!: Date;
+  public updatedAt?: Date;
 
   @OneToMany(() => TokenModel, (token) => token.user)
   public tokens!: TokenModel[];
@@ -46,9 +47,7 @@ export default class UserModel {
     this.password = entity.password;
     this.active = entity.active;
     this.createdAt = entity.createdAt;
-    if (entity.updatedAt) {
-      this.updatedAt = new Date();
-    }
+    this.updatedAt = entity.updatedAt;
     return this;
   }
 

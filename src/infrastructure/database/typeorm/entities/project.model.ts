@@ -7,11 +7,12 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import Project from '../../../../domain/project/project.entity';
+import IModel from '../model.interface';
 import TaskModel from './task.model';
 import UserModel from './user.model';
 
 @Entity('projects')
-export default class ProjectModel {
+export default class ProjectModel implements IModel<Project> {
   @PrimaryGeneratedColumn()
   public id?: number;
 

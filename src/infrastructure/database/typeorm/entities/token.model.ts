@@ -7,10 +7,11 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import Token from '../../../../domain/token/token.entity';
+import IModel from '../model.interface';
 import UserModel from './user.model';
 
 @Entity('tokens')
-export default class TokenModel {
+export default class TokenModel implements IModel<Token> {
   @PrimaryGeneratedColumn()
   public id?: number;
 

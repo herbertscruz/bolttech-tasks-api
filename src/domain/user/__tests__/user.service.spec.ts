@@ -51,7 +51,7 @@ describe('UserService', () => {
       // Then
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith({
-        where: { userId: userMock.id },
+        where: { id: userMock.id },
       });
       expect(result).toStrictEqual(pick(result, ['id', 'name', 'createdAt']));
     });
@@ -69,7 +69,7 @@ describe('UserService', () => {
       // Then
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith({
-        where: { userId },
+        where: { id: userId },
       });
       expect(result).toBeNull();
     });
@@ -89,7 +89,7 @@ describe('UserService', () => {
       // Then
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith({
-        where: { userId: userMock.id },
+        where: { id: userMock.id },
       });
       expect(result).toStrictEqual({ ...userMock, password: '' });
     });
@@ -132,7 +132,7 @@ describe('UserService', () => {
       // Then
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith({
-        where: { userId: userMock.id },
+        where: { id: userMock.id },
       });
       expect(update).toHaveBeenCalledTimes(1);
       expect(update).toHaveBeenCalledWith(
@@ -160,7 +160,7 @@ describe('UserService', () => {
       ).rejects.toThrow(env.ERROR.E002);
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith({
-        where: { userId: userMock.id },
+        where: { id: userMock.id },
       });
     });
   });
@@ -185,7 +185,7 @@ describe('UserService', () => {
       // Then
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith({
-        where: { userId: userMock.id },
+        where: { id: userMock.id },
       });
       expect(update).toHaveBeenCalledTimes(1);
       expect(update).toHaveBeenCalledWith({

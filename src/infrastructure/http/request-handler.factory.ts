@@ -1,4 +1,8 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
+import debugPkg from 'debug';
+const debug = debugPkg(
+  'bolttech:infrastructure:common:request:handler:factory',
+);
 
 export function createRequestHandler(
   callback: (req: Request, res: Response) => any,
@@ -9,7 +13,7 @@ export function createRequestHandler(
         await callback(req, res);
         next();
       } catch (err) {
-        console.log(err);
+        debug(err);
         next(err);
       }
     }

@@ -6,10 +6,11 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Task, TaskStatus } from '../../../../domain/project/project.entity';
+import IModel from '../model.interface';
 import ProjectModel from './project.model';
 
 @Entity('tasks')
-export default class TaskModel {
+export default class TaskModel implements IModel<Task> {
   @PrimaryGeneratedColumn()
   public id?: number;
 

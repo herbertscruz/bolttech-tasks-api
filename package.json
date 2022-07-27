@@ -4,8 +4,8 @@
   "description": "This is a multi-user task manager API by Bolttech.",
   "main": "src/server.ts",
   "scripts": {
-    "start": "ts-node src/server.ts",
-    "dev": "ts-node-dev src/server.ts",
+    "start": "cross-env DEBUG=bolttech:infrastructure:http:express:express:adapter ts-node src/server.ts",
+    "dev": "cross-env DEBUG=bolttech:* ts-node-dev src/server.ts",
     "test": "jest --passWithNoTests --group=unit/test",
     "test:integration": "jest --passWithNoTests --group=integration/test",
     "lint": "eslint . --cache --fix --max-warnings 10 --ext .ts",
@@ -18,7 +18,7 @@
     "db:migration:run": "npm run typeorm -- migration:run -d src/infrastructure/database/typeorm/datasource.config.ts",
     "db:migration:revert": "npm run typeorm -- migration:revert -d src/infrastructure/database/typeorm/datasource.config.ts",
     "db:seed": "cross-env DEBUG=bolttech:infrastructure:database:typeorm:* ts-node src/infrastructure/database/typeorm/seed.ts",
-    "generate:token": "cross-env DEBUG=bolttech:script:ganerate:token ts-node scripts/generate-token.ts"
+    "generate:token": "cross-env DEBUG=bolttech:script:generate:token ts-node scripts/generate-token.ts"
   },
   "repository": {
     "type": "git",

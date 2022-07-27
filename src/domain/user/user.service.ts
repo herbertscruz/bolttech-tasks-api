@@ -17,7 +17,7 @@ export default class UserService {
 
   async getCompleteData(userId: number): Promise<User | null> {
     const result = await this.userRepository.findOne({
-      where: { userId },
+      where: { id: userId },
     });
     if (result === null) return null;
     return { ...result, password: '' } as User;

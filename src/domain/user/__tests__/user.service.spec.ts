@@ -2,11 +2,13 @@
  * @group unit/test
  */
 
+import 'jest-extended';
 import User from '../user.entity';
 import { faker } from '@faker-js/faker';
 import UserService from '../user.service';
 import IUserRepository from '../user.repository.interface';
-import { pick } from 'lodash';
+import { omit, pick } from 'lodash';
+import env from '../../../configurations';
 
 describe('UserService', () => {
   const userMock = new User({
@@ -32,7 +34,7 @@ describe('UserService', () => {
   });
 
   describe('When the user needs to get their basic data', () => {
-    test('should succeed when sending an existing userId', async () => {
+    test('should succeed when submitting an existing user', async () => {
       // Given
       const findOne = jest
         .spyOn(userRepository, 'findOne')
@@ -41,17 +43,17 @@ describe('UserService', () => {
 
       // When
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const result = await userService.getUserMe(userMock.id!);
+      const result = await userService.getSummaryData(userMock.id!);
 
       // Then
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith({
-        where: { userId: userMock.id, active: true },
+        where: { userId: userMock.id },
       });
       expect(result).toStrictEqual(pick(result, ['id', 'name', 'createdAt']));
     });
 
-    test('should return null when sending a non-existent userId', async () => {
+    test('should return null when submitting a non-existent user', async () => {
       // Given
       const findOne = jest
         .spyOn(userRepository, 'findOne')
@@ -60,19 +62,19 @@ describe('UserService', () => {
       const userId = 2;
 
       // When
-      const result = await userService.getUserMe(userId);
+      const result = await userService.getSummaryData(userId);
 
       // Then
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith({
-        where: { userId, active: true },
+        where: { userId },
       });
       expect(result).toBeNull();
     });
   });
 
   describe('When the user needs to get their complete data', () => {
-    test('should succeed when sending an existing userId', async () => {
+    test('should succeed when submitting an existing user', async () => {
       // Given
       const findOne = jest
         .spyOn(userRepository, 'findOne')
@@ -81,33 +83,131 @@ describe('UserService', () => {
 
       // When
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const result = await userService.getUserFull(userMock.id!);
+      const result = await userService.getCompleteData(userMock.id!);
 
       // Then
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith({
-        where: { userId: userMock.id, active: true },
+        where: { userId: userMock.id },
       });
       expect(result).toStrictEqual({ ...userMock, password: '' });
     });
+  });
 
-    test('should return null when sending a non-existent userId', async () => {
+  describe('When the user needs to insert their complete data', () => {
+    test('should succeed when submitting the expected data', async () => {
+      // Given
+      const create = jest
+        .spyOn(userRepository, 'create')
+        .mockReset()
+        .mockResolvedValueOnce({
+          ...userMock,
+          password: faker.internet.password(),
+        });
+
+      // When
+      const result = await userService.createUser(userMock);
+
+      // Then
+      expect(create).toHaveBeenCalledTimes(1);
+      expect(create).toHaveBeenCalledWith({
+        ...omit(userMock, ['id', 'createdAt', 'updatedAt']),
+        password: expect.toBeString(),
+      });
+      expect(result.password).not.toBeEmpty();
+      expect(result).toStrictEqual({
+        ...userMock,
+        password: expect.toBeString(),
+      });
+    });
+  });
+
+  describe('When the user needs to update their complete data', () => {
+    test('should succeed when submitting the expected data', async () => {
+      // Given
+      const findOne = jest
+        .spyOn(userRepository, 'findOne')
+        .mockReset()
+        .mockResolvedValueOnce(userMock);
+      const update = jest
+        .spyOn(userRepository, 'update')
+        .mockReset()
+        .mockResolvedValueOnce(userMock);
+
+      // When
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const result = await userService.updateUser(userMock.id!, {
+        ...userMock,
+        password: faker.internet.password(),
+      });
+
+      // Then
+      expect(findOne).toHaveBeenCalledTimes(1);
+      expect(findOne).toHaveBeenCalledWith({
+        where: { userId: userMock.id },
+      });
+      expect(update).toHaveBeenCalledTimes(1);
+      expect(update).toHaveBeenCalledWith(
+        omit(userMock, ['password', 'createdAt', 'updatedAt']),
+      );
+      expect(result.password).toBeEmpty();
+      expect(result).toStrictEqual({
+        ...userMock,
+        password: expect.toBeString(),
+      });
+    });
+
+    test('should return error when submitting a non-existent user', async () => {
       // Given
       const findOne = jest
         .spyOn(userRepository, 'findOne')
         .mockReset()
         .mockResolvedValueOnce(null);
-      const userId = 2;
 
       // When
-      const result = await userService.getUserFull(userId);
+
+      // Then
+      await expect(
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        userService.updateUser(userMock.id!, userMock),
+      ).rejects.toThrow(env.ERROR.E002);
+      expect(findOne).toHaveBeenCalledTimes(1);
+      expect(findOne).toHaveBeenCalledWith({
+        where: { userId: userMock.id },
+      });
+    });
+  });
+
+  describe('When the user needs to update their password', () => {
+    test('should succeed when submitting the new password', async () => {
+      // Given
+      const findOne = jest
+        .spyOn(userRepository, 'findOne')
+        .mockReset()
+        .mockResolvedValueOnce(userMock);
+      const update = jest
+        .spyOn(userRepository, 'update')
+        .mockReset()
+        .mockResolvedValueOnce(userMock);
+
+      // When
+      const result = await userService.updateUserPassword(
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        userMock.id!,
+        faker.internet.password(),
+      );
 
       // Then
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith({
-        where: { userId, active: true },
+        where: { userId: userMock.id },
       });
-      expect(result).toBeNull();
+      expect(update).toHaveBeenCalledTimes(1);
+      expect(update).toHaveBeenCalledWith({
+        id: userMock.id,
+        password: expect.toBeString(),
+      });
+      expect(result).toStrictEqual(pick(result, ['id', 'name', 'createdAt']));
     });
   });
 });

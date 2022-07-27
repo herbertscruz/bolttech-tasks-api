@@ -21,6 +21,7 @@ const env = {
   },
   ERROR: {
     E001: 'System error',
+    E002: 'User not found',
   },
   CONSTANTS: {},
 };

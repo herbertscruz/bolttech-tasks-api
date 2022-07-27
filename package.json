@@ -18,7 +18,7 @@
     "db:migration:run": "npm run typeorm -- migration:run -d src/infrastructure/database/typeorm/datasource.config.ts",
     "db:migration:revert": "npm run typeorm -- migration:revert -d src/infrastructure/database/typeorm/datasource.config.ts",
     "db:seed": "cross-env DEBUG=bolttech:infrastructure:database:typeorm:* ts-node src/infrastructure/database/typeorm/seed.ts",
-    "generate:token": "ts-node scripts/generate-token.ts"
+    "generate:token": "cross-env DEBUG=bolttech:script:ganerate:token ts-node scripts/generate-token.ts"
   },
   "repository": {
     "type": "git",
@@ -59,7 +59,6 @@
     "jest-runner-groups": "^2.2.0",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
-    "rimraf": "^3.0.2",
     "shx": "^0.3.4",
     "supertest": "^6.2.4",
     "ts-jest": "^28.0.7",

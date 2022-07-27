@@ -6,35 +6,61 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import User from '../../../../domain/user/user.entity';
 import ProjectModel from './project.model';
 import TokenModel from './token.model';
 
 @Entity('users')
 export default class UserModel {
   @PrimaryGeneratedColumn()
-  private id?: number;
+  public id?: number;
 
   @Column()
-  private name!: string;
+  public name!: string;
 
   @Column()
-  private email!: string;
+  public email!: string;
 
   @Column()
-  private password!: string;
+  public password?: string;
 
   @Column()
-  private active!: boolean;
+  public active!: boolean;
 
   @CreateDateColumn()
-  private createdAt?: Date;
+  public createdAt?: Date;
 
   @UpdateDateColumn()
-  private updatedAt!: Date;
+  public updatedAt!: Date;
 
   @OneToMany(() => TokenModel, (token) => token.user)
-  readonly tokens!: TokenModel[];
+  public tokens!: TokenModel[];
 
   @OneToMany(() => ProjectModel, (project) => project.user)
-  readonly projects!: ProjectModel[];
+  public projects!: ProjectModel[];
+
+  toModel(entity: User): this {
+    this.id = entity.id;
+    this.name = entity.name;
+    this.email = entity.email;
+    this.password = entity.password;
+    this.active = entity.active;
+    this.createdAt = entity.createdAt;
+    if (entity.updatedAt) {
+      this.updatedAt = new Date();
+    }
+    return this;
+  }
+
+  toEntity(): User {
+    return new User({
+      id: this.id,
+      name: this.name,
+      email: this.email,
+      password: this.password,
+      active: this.active,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    });
+  }
 }

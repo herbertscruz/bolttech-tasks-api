@@ -6,26 +6,46 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import Token from '../../../../domain/token/token.entity';
 import UserModel from './user.model';
 
 @Entity('tokens')
 export default class TokenModel {
   @PrimaryGeneratedColumn()
-  private id?: number;
+  public id?: number;
 
   @Column()
-  private userId!: string;
+  public userId!: string;
 
   @Column()
   @Index({ unique: true })
-  private token!: string;
+  public token!: string;
 
   @CreateDateColumn()
-  private createdAt?: Date;
+  public createdAt?: Date;
 
   @Column()
-  private expiresIn!: Date;
+  public expiresIn?: Date;
 
   @ManyToOne(() => UserModel, (user) => user.tokens)
-  readonly user!: UserModel;
+  public user!: UserModel;
+
+  toModel(entity: Token): this {
+    this.id = entity.id;
+    this.userId = entity.userId;
+    this.token = entity.token;
+    this.createdAt = entity.createdAt;
+    this.expiresIn = entity.expiresIn;
+    return this;
+  }
+
+  toEntity(): Token {
+    return new Token({
+      id: this.id,
+      userId: this.userId,
+      token: this.token,
+      createdAt: this.createdAt,
+      expiresIn: this.expiresIn,
+    });
+  }
 }

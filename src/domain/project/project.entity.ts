@@ -20,8 +20,8 @@ export class Task {
   constructor(props: {
     id?: number;
     projectId: string;
-    description: TaskStatus;
-    status: boolean;
+    description: string;
+    status: TaskStatus;
     createdAt?: Date;
     completedIn?: Date;
   }) {
@@ -42,11 +42,9 @@ export default class Project {
 
   constructor(props: {
     id?: number;
+    userId: string;
     name: string;
-    email: string;
-    active: boolean;
     createdAt?: Date;
-    updatedAt?: Date;
     tasks: Task[];
   }) {
     const tasks = props?.tasks.map((task: any) => new Task(task));

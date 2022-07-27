@@ -5,32 +5,53 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { TaskStatus } from '../../../../domain/project/project.entity';
+import { Task, TaskStatus } from '../../../../domain/project/project.entity';
 import ProjectModel from './project.model';
 
 @Entity('tasks')
 export default class TaskModel {
   @PrimaryGeneratedColumn()
-  private id?: number;
+  public id?: number;
 
   @Column()
-  private projectId!: string;
+  public projectId!: string;
 
   @Column()
-  private description!: string;
+  public description!: string;
 
   @Column({
     type: 'enum',
     enum: TaskStatus,
   })
-  private status!: TaskStatus;
+  public status!: TaskStatus;
 
   @CreateDateColumn()
-  private createdAt?: Date;
+  public createdAt?: Date;
 
   @Column()
-  private completedIn!: Date;
+  public completedIn?: Date;
 
   @ManyToOne(() => ProjectModel, (project) => project.tasks)
-  readonly project!: ProjectModel;
+  public project!: ProjectModel;
+
+  toModel(entity: Task): this {
+    this.id = entity.id;
+    this.projectId = entity.projectId;
+    this.description = entity.description;
+    this.status = entity.status;
+    this.createdAt = entity.createdAt;
+    this.completedIn = entity.completedIn;
+    return this;
+  }
+
+  toEntity(): Task {
+    return new Task({
+      id: this.id,
+      projectId: this.projectId,
+      description: this.description,
+      status: this.status,
+      createdAt: this.createdAt,
+      completedIn: this.completedIn,
+    });
+  }
 }

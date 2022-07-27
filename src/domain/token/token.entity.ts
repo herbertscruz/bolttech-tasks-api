@@ -11,11 +11,10 @@ export default class Token {
 
   constructor(props: {
     id?: number;
-    name: string;
-    email: string;
-    active: boolean;
+    userId: string;
+    token: string;
     createdAt?: Date;
-    updatedAt?: Date;
+    expiresIn?: Date;
   }) {
     Object.assign(this, props);
   }

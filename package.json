@@ -11,9 +11,10 @@
     "lint": "eslint . --cache --fix --max-warnings 10 --ext .ts",
     "prettier": "prettier --write .",
     "prepare": "husky install",
-    "typeorm": "typeorm-ts-node-esm",
-    "db:migration:run": "npm run typeorm migration:run -d ./src/infrastructure/database/typeorm/datasource.config.ts",
-    "db:migration:revert": "npm run typeorm migration:revert -d ./src/infrastructure/database/typeorm/datasource.config.ts",
+    "typeorm": "npx typeorm-ts-node-esm",
+    "db:migration:create": "npm run typeorm -- migration:create",
+    "db:migration:run": "npm run typeorm -- migration:run -d src/infrastructure/database/typeorm/datasource.config.ts",
+    "db:migration:revert": "npm run typeorm -- migration:revert -d src/infrastructure/database/typeorm/datasource.config.ts",
     "db:seed": "cross-env DEBUG=bolttech:infrastructure:database:typeorm:* ts-node src/infrastructure/database/typeorm/seed.ts",
     "generate:token": "ts-node scripts/generate-token.ts"
   },

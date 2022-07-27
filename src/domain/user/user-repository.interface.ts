@@ -4,7 +4,7 @@ import User from './user.entity';
 export default interface IUserRepository {
   findOne(params: IFindOneParameters): Promise<User | null>;
 
-  create(user: User): Promise<User>;
+  create(user: User): Promise<void>;
 
   update(user: User): Promise<User>;
 }

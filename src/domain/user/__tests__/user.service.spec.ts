@@ -6,7 +6,7 @@ import 'jest-extended';
 import User from '../user.entity';
 import { faker } from '@faker-js/faker';
 import UserService from '../user.service';
-import IUserRepository from '../user.repository.interface';
+import IUserRepository from '../user-repository.interface';
 import { omit, pick } from 'lodash';
 import env from '../../../configurations';
 
@@ -98,25 +98,15 @@ describe('UserService', () => {
   describe('When the user needs to insert their complete data', () => {
     test('should succeed when submitting the expected data', async () => {
       // Given
-      const create = jest
-        .spyOn(userRepository, 'create')
-        .mockResolvedValueOnce({
-          ...userMock,
-          password: faker.internet.password(),
-        });
+      const create = jest.spyOn(userRepository, 'create');
 
       // When
-      const result = await userService.createUser(userMock);
+      await userService.createUser(userMock);
 
       // Then
       expect(create).toHaveBeenCalledTimes(1);
       expect(create).toHaveBeenCalledWith({
         ...omit(userMock, ['id', 'createdAt', 'updatedAt']),
-        password: expect.toBeString(),
-      });
-      expect(result.password).not.toBeEmpty();
-      expect(result).toStrictEqual({
-        ...userMock,
         password: expect.toBeString(),
       });
     });

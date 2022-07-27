@@ -165,9 +165,7 @@ describe('UserController', () => {
   describe('createUser', () => {
     test('success', async () => {
       // Given
-      const createUser = jest
-        .spyOn(userService, 'createUser')
-        .mockResolvedValueOnce(userMock);
+      const createUser = jest.spyOn(userService, 'createUser');
       const newHttpRequestMock = {
         ...httpRequestMock,
         body: userMock,
@@ -181,8 +179,7 @@ describe('UserController', () => {
       expect(createUser).toHaveBeenCalledWith(newHttpRequestMock.body);
       expect(responseMock.status).toHaveBeenCalledTimes(1);
       expect(responseMock.status).toHaveBeenCalledWith(201);
-      expect(responseMock.json).toHaveBeenCalledTimes(1);
-      expect(responseMock.json).toHaveBeenCalledWith(userMock);
+      expect(responseMock.json).toHaveBeenCalledTimes(0);
     });
   });
 

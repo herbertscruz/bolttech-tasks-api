@@ -11,29 +11,29 @@ export default class UserController implements IController {
   constructor(private readonly userService: UserService) {}
 
   async getUserMe(
-    req: HttpRequest,
+    req: Request,
     res: Response,
   ): Promise<Response<IUserMeResponse>> {
-    const id = parseInt(req.id);
+    const id = parseInt((req as HttpRequest).id);
     const user = await this.userService.getSummaryData(id);
     return res.status(200).json(user);
   }
 
-  async getUserFull(req: HttpRequest, res: Response): Promise<Response<User>> {
-    const id = parseInt(req.id);
+  async getUserFull(req: Request, res: Response): Promise<Response<User>> {
+    const id = parseInt((req as HttpRequest).id);
     const userId = parseInt(req.params.userId);
     if (id !== userId) throw new ValidationError(env.ERROR.E003);
     const user = await this.userService.getCompleteData(id);
     return res.status(200).json(user);
   }
 
-  async createUser(req: Request, res: Response): Promise<Response<User>> {
-    const user = await this.userService.createUser(req.body);
-    return res.status(201).json(user);
+  async createUser(req: Request, res: Response): Promise<Response<void>> {
+    await this.userService.createUser(req.body);
+    return res.status(201);
   }
 
-  async updateUser(req: HttpRequest, res: Response): Promise<Response<User>> {
-    const id = parseInt(req.id);
+  async updateUser(req: Request, res: Response): Promise<Response<User>> {
+    const id = parseInt((req as HttpRequest).id);
     const userId = parseInt(req.params.userId);
     if (id !== userId) throw new ValidationError(env.ERROR.E004);
     const user = await this.userService.updateUser(id, req.body);
@@ -41,10 +41,10 @@ export default class UserController implements IController {
   }
 
   async updatePassword(
-    req: HttpRequest,
+    req: Request,
     res: Response,
   ): Promise<Response<IUserMeResponse>> {
-    const id = parseInt(req.id);
+    const id = parseInt((req as HttpRequest).id);
     const userId = parseInt(req.params.userId);
     if (id !== userId) throw new ValidationError(env.ERROR.E005);
     const user = await this.userService.updateUserPassword(

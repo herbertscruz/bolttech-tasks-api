@@ -28,6 +28,7 @@ const env = {
     E003: "User not allowed to query another user's data",
     E004: "User not allowed to update another user's data",
     E005: "User not allowed to change another user's password",
+    E006: 'No token provided.',
   },
   CONSTANTS: {},
 };

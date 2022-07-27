@@ -1,6 +1,6 @@
 import { omit, pick } from 'lodash';
 import User from './user.entity';
-import IUserRepository from './user.repository.interface';
+import IUserRepository from './user-repository.interface';
 import CryptoJS from 'crypto-js';
 import env from '../../configurations';
 import ValidationError from '../common/validation-error.exception';
@@ -23,13 +23,13 @@ export default class UserService {
     return { ...result, password: '' } as User;
   }
 
-  async createUser(user: User): Promise<User> {
+  async createUser(user: User): Promise<void> {
     user = omit(user, ['id', 'createdAt', 'updatedAt']);
     user = Object.assign({}, user, {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       password: this.generatePassword(user.password!),
     }) as User;
-    return this.userRepository.create(user);
+    await this.userRepository.create(user);
   }
 
   async updateUser(userId: number, user: User): Promise<User> {

@@ -580,11 +580,11 @@ components:
           type: string
         createdAt:
           type: string
-          # format: date-time
+          format: date-time
         completedIn:
           type: string
           nullable: true
-          # format: date-time
+          format: date-time
     Tasks:
       type: array
       items:
@@ -600,8 +600,8 @@ components:
             type: string
           createdAt:
             type: string
-            # format: date-time
+            format: date-time
           completedIn:
             type: string
             nullable: true
-            # format: date-time
+            format: date-time

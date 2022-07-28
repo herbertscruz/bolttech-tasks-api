@@ -9,18 +9,27 @@ const env = {
   API: {
     PORT: Number(process.env.API_PORT) || 3000,
     CRYPTO_SECRET: process.env.CRYPTO_SECRET || 'crypto_token',
+    WEB_APP_URL: process.env.WEB_APP_URL || 'http://localhost:8080',
   },
   JWT: {
     SECRET: process.env.JWT_SECRET || 'jwt_token',
-    TTL_MINUTES: process.env.JWT_TTL_MINUTES || 30,
+    TTL_MINUTES: parseInt(process.env.JWT_TTL_MINUTES ?? '30'),
   },
   DB: {
     HOST: process.env.DB_HOST || 'localhost',
     PORT: Number(process.env.DB_PORT) || 3306,
-    USERNAME: process.env.DB_USERNAME || 'root',
-    PASSWORD: process.env.DB_PASSWORD || 'root',
+    USERNAME: process.env.DB_USER || 'root',
+    PASSWORD: process.env.DB_PASS || 'root',
     DATABASE: process.env.DB_DATABASE || 'bolttech_tasks',
     LOGGING: ['prodution', 'prod'].includes(nodeEnv),
+  },
+  EMAIL: {
+    FROM: process.env.EMAIL_FROM || 'sac@bolttech.com',
+    HOST: process.env.EMAIL_HOST || 'app.debugmail.io',
+    PORT: parseInt(process.env.EMAIL_PORT ?? '25'),
+    AUTH_USER: process.env.EMAIL_AUTH_USER || 'user@example.org',
+    AUTH_PASS:
+      process.env.EMAIL_AUTH_PASS || '2d866a50-1dd7-11eb-aa51-995a00adea5e',
   },
   ERROR: {
     E001: 'System error',

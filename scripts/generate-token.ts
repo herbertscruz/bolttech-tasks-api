@@ -1,29 +1,28 @@
-import jwt from 'jsonwebtoken';
-import env from '../src/configurations/';
 import debugPkg from 'debug';
 const debug = debugPkg('bolttech:script:generate:token');
 import { AppDataSource } from '../src/infrastructure/database/typeorm/datasource.config';
 import UserModel from '../src/infrastructure/database/typeorm/entities/user.model';
-import { first, pick } from 'lodash';
+import { first } from 'lodash';
+import Token from '../src/domain/token/token.entity';
+import TokenModel from '../src/infrastructure/database/typeorm/entities/token.model';
 
 AppDataSource.initialize()
   .then(async () => {
-    const user = await AppDataSource.manager.find(UserModel, {
-      order: { id: 1 },
-      take: 1,
-    });
+    const user = first(
+      await AppDataSource.manager.find(UserModel, {
+        order: { id: 1 },
+        take: 1,
+      }),
+    );
 
-    if (user.length === 0) throw new Error('User not found');
+    if (!user) throw new Error('User not found');
 
-    const data = {
-      ...pick(first(user), ['id', 'name']),
-      createdAt: new Date(),
-      ttl: env.JWT.TTL_MINUTES,
-    };
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const token = new Token({ userId: user.id! });
+    token.generate(user);
 
-    const token = jwt.sign(data, env.JWT.SECRET);
+    await AppDataSource.manager.insert(TokenModel, token);
 
-    debug('Data: %s', data);
     debug('Token: %s', token);
   })
   .catch(debug)

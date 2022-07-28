@@ -16,7 +16,7 @@ export default class TokenModel implements IModel<Token> {
   public id?: number;
 
   @Column()
-  public userId!: string;
+  public userId!: number;
 
   @Column()
   @Index({ unique: true })
@@ -26,7 +26,7 @@ export default class TokenModel implements IModel<Token> {
   public createdAt?: Date;
 
   @Column()
-  public expiresIn?: Date;
+  public ttl?: number;
 
   @ManyToOne(() => UserModel, (user) => user.tokens)
   public user!: UserModel;
@@ -36,7 +36,7 @@ export default class TokenModel implements IModel<Token> {
     this.userId = entity.userId;
     this.token = entity.token;
     this.createdAt = entity.createdAt;
-    this.expiresIn = entity.expiresIn;
+    this.ttl = entity.ttl;
     return this;
   }
 
@@ -46,7 +46,7 @@ export default class TokenModel implements IModel<Token> {
       userId: this.userId,
       token: this.token,
       createdAt: this.createdAt,
-      expiresIn: this.expiresIn,
+      ttl: this.ttl,
     });
   }
 }

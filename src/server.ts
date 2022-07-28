@@ -5,9 +5,11 @@ import SwaggerControllerFactory from './infrastructure/common/swagger-controller
 const debug = debugPkg('bolttech:server');
 import typeormFactory from './infrastructure/database/typeorm.factory';
 import TypeORMAdapter from './infrastructure/database/typeorm/typeorm.adapter';
+import SmtpEmail from './infrastructure/email/smtp/smtp.adapter';
 import HealthControllerFactory from './infrastructure/health/health-controller.factory';
 import expressFactory from './infrastructure/http/express.factory';
 import ExpressAdapter from './infrastructure/http/express/express.adapter';
+import TokenControllerFactory from './infrastructure/token/token-controller.factory';
 import UserControllerFactory from './infrastructure/user/user-controller.factory';
 
 process.env.TZ = 'UTC';
@@ -20,10 +22,17 @@ let app!: ExpressAdapter;
   // ----------------------------------------------------------------
   datasource = await typeormFactory();
 
+  const emailService = new SmtpEmail();
+  const tokenControllerFactory = new TokenControllerFactory(
+    datasource,
+    emailService,
+  );
+
   const controllers = [
     new SwaggerControllerFactory(),
     new HealthControllerFactory(),
-    new UserControllerFactory(datasource),
+    tokenControllerFactory,
+    new UserControllerFactory(datasource, tokenControllerFactory.controller),
   ];
 
   // ----------------------------------------------------------------

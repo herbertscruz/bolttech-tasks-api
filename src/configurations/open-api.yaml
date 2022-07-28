@@ -69,7 +69,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         422:
-          description: Unauthorized
+          description: Unprocessable Entity
           content:
             application/json:
               schema:
@@ -111,7 +111,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         422:
-          description: Unauthorized
+          description: Unprocessable Entity
           content:
             application/json:
               schema:
@@ -178,7 +178,71 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         422:
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /tokens/login:
+    post:
+      summary: Get access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        401:
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /tokens/renew:
+    post:
+      summary: Add user data
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Renew'
+      responses:
+        204:
+          description: No Content
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Unprocessable Entity
           content:
             application/json:
               schema:
@@ -250,4 +314,30 @@ components:
       type: object
       properties:
         newPassword:
+          type: string
+    Login:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    Token:
+      type: object
+      properties:
+        id:
+          type: number
+        userId:
+          type: number
+        token:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        ttl:
+          type: number
+    Renew:
+      type: object
+      properties:
+        email:
           type: string

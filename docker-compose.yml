@@ -10,6 +10,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: bolttech_tasks
+      TZ: UTC
 
   adminer:
     container_name: adminer

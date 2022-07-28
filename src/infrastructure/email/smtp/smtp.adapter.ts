@@ -13,6 +13,9 @@ export default class SmtpEmail implements IEmail {
         user: env.EMAIL.AUTH_USER,
         pass: env.EMAIL.AUTH_PASS,
       },
+      tls: {
+        rejectUnauthorized: false,
+      },
     });
   }
 

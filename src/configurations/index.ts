@@ -14,6 +14,7 @@ const env = {
   JWT: {
     SECRET: process.env.JWT_SECRET || 'jwt_token',
     TTL_MINUTES: parseInt(process.env.JWT_TTL_MINUTES ?? '30'),
+    RENEW_TTL_MINUTES: parseInt(process.env.JWT_RENEW_TTL_MINUTES ?? '10'),
   },
   DB: {
     HOST: process.env.DB_HOST || 'localhost',
@@ -27,7 +28,7 @@ const env = {
     FROM: process.env.EMAIL_FROM || 'sac@bolttech.com',
     HOST: process.env.EMAIL_HOST || 'app.debugmail.io',
     PORT: parseInt(process.env.EMAIL_PORT ?? '25'),
-    AUTH_USER: process.env.EMAIL_AUTH_USER || 'user@example.org',
+    AUTH_USER: process.env.EMAIL_AUTH_USER || 'herbertscruz@gmail.com',
     AUTH_PASS:
       process.env.EMAIL_AUTH_PASS || '2d866a50-1dd7-11eb-aa51-995a00adea5e',
   },
@@ -37,7 +38,8 @@ const env = {
     E003: "User not allowed to query another user's data",
     E004: "User not allowed to update another user's data",
     E005: "User not allowed to change another user's password",
-    E006: 'No token provided.',
+    E006: 'No token provided',
+    E007: 'Invalid email or password',
   },
   CONSTANTS: {},
 };

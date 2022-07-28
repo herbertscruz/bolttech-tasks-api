@@ -1,3 +1,6 @@
+import env from '../../configurations';
+import CryptoJS from 'crypto-js';
+
 export default class User {
   readonly id?: number;
 
@@ -23,5 +26,9 @@ export default class User {
     updatedAt?: Date;
   }) {
     Object.assign(this, props);
+  }
+
+  public static generatePassword(rawPassword: string): string {
+    return CryptoJS.HmacSHA256(rawPassword, env.API.CRYPTO_SECRET).toString();
   }
 }

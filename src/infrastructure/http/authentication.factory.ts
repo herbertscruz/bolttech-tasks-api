@@ -4,50 +4,41 @@ import { HttpRequest } from '../../application/common/http-request.interface';
 import env from '../../configurations';
 import debugPkg from 'debug';
 import { pick } from 'lodash';
-import moment from 'moment';
+import TokenController from '../../application/token/token.controller';
 const debug = debugPkg(
-  'bolttech:infrastructure:factory:common:authentication.factory',
+  'bolttech:infrastructure:factory:http:authentication.factory',
 );
 
-export function authentication(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): Response | void {
-  const token = req.header('Authorization')?.replace('Bearer ', '');
+export const authentication =
+  (tokenController: TokenController) =>
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> => {
+    try {
+      const token = req.header('Authorization')?.replace('Bearer ', '');
+      if (!token) throw new Error('Token not found');
 
-  if (!token)
-    return res.status(401).json({
-      sucess: false,
-      status: 401,
-      message: env.ERROR.E006,
-    });
+      const tokenObj = await tokenController.getByToken(token);
+      if (tokenObj === null) throw new Error('Token not found');
+      if (tokenObj?.isExpired()) throw new Error('Token expired');
 
-  try {
-    const decoded = jwt.verify(token, env.JWT.SECRET) as JwtPayload;
+      const decoded = jwt.verify(token, env.JWT.SECRET) as JwtPayload;
+      (req as HttpRequest).id = decoded.id;
+      (req as HttpRequest).name = decoded.name;
+      (req as HttpRequest).createdAt = decoded.createdAt;
+      (req as HttpRequest).ttl = decoded.ttl;
 
-    const expiresIn = moment(decoded.createdAt).add(decoded.ttl, 'minutes');
-
-    if (moment().isAfter(expiresIn)) {
-      return res.status(401).json({
+      debug(pick(req, ['id', 'name', 'createdAt', 'ttl']));
+      next();
+    } catch (err) {
+      debug(err);
+      res.status(401).json({
         sucess: false,
         status: 401,
         message: env.ERROR.E006,
       });
+      next(err);
     }
-
-    (req as HttpRequest).id = decoded.id;
-    (req as HttpRequest).name = decoded.name;
-    (req as HttpRequest).createdAt = decoded.createdAt;
-    (req as HttpRequest).ttl = decoded.ttl;
-    debug(pick(req, ['id', 'name', 'createdAt', 'ttl']));
-    next();
-  } catch (err) {
-    debug(err);
-    return res.status(401).json({
-      sucess: false,
-      status: 401,
-      message: env.ERROR.E006,
-    });
-  }
-}
+  };

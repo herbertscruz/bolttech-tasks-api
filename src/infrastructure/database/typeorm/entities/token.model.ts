@@ -1,6 +1,5 @@
 import {
   Column,
-  CreateDateColumn,
   Entity,
   Index,
   ManyToOne,
@@ -22,7 +21,7 @@ export default class TokenModel implements IModel<Token> {
   @Index({ unique: true })
   public token!: string;
 
-  @CreateDateColumn()
+  @Column()
   public createdAt?: Date;
 
   @Column()

@@ -8,13 +8,16 @@ import IControllerFactory, {
 } from '../common/controller-factory.interface';
 import UserRepository from './user.repository';
 import { createRequestHandler } from '../http/request-handler.factory';
+import TokenController from '../../application/token/token.controller';
 
 export default class UserControllerFactory
   implements IControllerFactory, IRouterFactory
 {
   private controller: UserController;
+  private tokenController: TokenController;
 
-  constructor(database: IDatabaseAdapter) {
+  constructor(database: IDatabaseAdapter, tokenController: TokenController) {
+    this.tokenController = tokenController;
     const userRepository = new UserRepository(database);
     const userService = new UserService(userRepository);
     this.controller = new UserController(userService);
@@ -25,12 +28,12 @@ export default class UserControllerFactory
 
     router.get(
       '/users/me',
-      authentication,
+      authentication(this.tokenController),
       createRequestHandler((...params) => this.controller.getUserMe(...params)),
     );
     router.get(
       '/users/:userId',
-      authentication,
+      authentication(this.tokenController),
       createRequestHandler((...params) =>
         this.controller.getUserFull(...params),
       ),
@@ -43,14 +46,14 @@ export default class UserControllerFactory
     );
     router.put(
       '/users/:userId',
-      authentication,
+      authentication(this.tokenController),
       createRequestHandler((...params) =>
         this.controller.updateUser(...params),
       ),
     );
     router.patch(
       '/users/:userId/new-password',
-      authentication,
+      authentication(this.tokenController),
       createRequestHandler((...params) =>
         this.controller.updatePassword(...params),
       ),

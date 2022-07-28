@@ -36,7 +36,6 @@ export default class ProjectModel implements IModel<Project> {
     this.userId = entity.userId;
     this.name = entity.name;
     this.createdAt = entity.createdAt;
-    this.tasks = entity.tasks.map((task) => new TaskModel().toModel(task));
     return this;
   }
 
@@ -46,7 +45,6 @@ export default class ProjectModel implements IModel<Project> {
       userId: this.userId,
       name: this.name,
       createdAt: this.createdAt,
-      tasks: this.tasks.map((task) => task.toEntity()),
     });
   }
 }

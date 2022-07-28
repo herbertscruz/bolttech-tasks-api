@@ -189,6 +189,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /users/{userId}/projects:
+    get:
+      summary: Get all user projects
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: User's unique identifier
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Projects'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /tokens/login:
     post:
       summary: Get access token
@@ -232,6 +263,175 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Renew'
+      responses:
+        204:
+          description: No Content
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects:
+    post:
+      summary: Add project data
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{projectId}:
+    delete:
+      summary: Delete project data
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+          description: Project's unique identifier
+      responses:
+        204:
+          description: No Content
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{projectId}/tasks:
+    get:
+      summary: Get all project tasks
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+          description: Project's unique identifier
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tasks'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /tasks:
+    post:
+      summary: Add task data
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /tasks/{taskId}:
+    delete:
+      summary: Delete task data
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: taskId
+          schema:
+            type: integer
+          required: true
+          description: Task's unique identifier
       responses:
         204:
           description: No Content
@@ -341,3 +541,67 @@ components:
       properties:
         email:
           type: string
+    Project:
+      type: object
+      properties:
+        id:
+          type: number
+        userId:
+          type: number
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    Projects:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: number
+          userId:
+            type: number
+          name:
+            type: string
+          createdAt:
+            type: string
+            format: date-time
+    Task:
+      type: object
+      properties:
+        id:
+          type: number
+        projectId:
+          type: number
+        description:
+          type: string
+        status:
+          type: string
+        createdAt:
+          type: string
+          # format: date-time
+        completedIn:
+          type: string
+          nullable: true
+          # format: date-time
+    Tasks:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: number
+          projectId:
+            type: number
+          description:
+            type: string
+          status:
+            type: string
+          createdAt:
+            type: string
+            # format: date-time
+          completedIn:
+            type: string
+            nullable: true
+            # format: date-time

@@ -30,11 +30,11 @@ export default class ProjectService {
     return this.projectRepository.save(project);
   }
 
-  async delete(project: Project): Promise<void> {
+  async delete(userId: number, projectId: number): Promise<void> {
     const result = await this.projectRepository.findOne({
-      where: { id: project.id },
+      where: { userId, id: projectId },
     });
     if (result === null) throw new ValidationError(env.ERROR.E008);
-    await this.projectRepository.delete(project);
+    await this.projectRepository.delete(projectId);
   }
 }

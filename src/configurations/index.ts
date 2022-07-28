@@ -41,6 +41,10 @@ const env = {
     E006: 'No token provided',
     E007: 'Invalid email or password',
     E008: 'Project not found',
+    E009: 'Task not found',
+    E010: "User not allowed to delete tasks from another user's projects",
+    E011: "User not allowed to save tasks from another user's projects",
+    E012: "User not allowed to query tasks from another user's projects",
   },
   CONSTANTS: {},
 };

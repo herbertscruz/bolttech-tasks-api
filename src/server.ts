@@ -9,6 +9,8 @@ import SmtpEmail from './infrastructure/email/smtp/smtp.adapter';
 import HealthControllerFactory from './infrastructure/health/health-controller.factory';
 import expressFactory from './infrastructure/http/express.factory';
 import ExpressAdapter from './infrastructure/http/express/express.adapter';
+import ProjectControllerFactory from './infrastructure/project/project-controller.factory';
+import TaskControllerFactory from './infrastructure/task/task-controller.factory';
 import TokenControllerFactory from './infrastructure/token/token-controller.factory';
 import UserControllerFactory from './infrastructure/user/user-controller.factory';
 
@@ -33,6 +35,8 @@ let app!: ExpressAdapter;
     new HealthControllerFactory(),
     tokenControllerFactory,
     new UserControllerFactory(datasource, tokenControllerFactory.controller),
+    new ProjectControllerFactory(datasource, tokenControllerFactory.controller),
+    new TaskControllerFactory(datasource, tokenControllerFactory.controller),
   ];
 
   // ----------------------------------------------------------------

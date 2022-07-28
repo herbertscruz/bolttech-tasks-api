@@ -1,0 +1,41 @@
+version: '3.1'
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    build:
+      context: .
+      dockerfile: Dockerfile.rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  mysql:
+    container_name: mysql
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456789
+      MYSQL_DATABASE: sale_service
+
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  api:
+    container_name: api
+    build: .
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./:/home/node/app
+    links:
+      - mysql
+    depends_on:
+      - rabbitmq
+      - mysql

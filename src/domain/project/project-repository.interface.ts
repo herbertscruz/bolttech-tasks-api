@@ -9,5 +9,5 @@ export default interface IProjectRepository {
 
   save(project: Project): Promise<Project>;
 
-  delete(project: Project): Promise<void>;
+  delete(projectId: number): Promise<void>;
 }

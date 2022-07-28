@@ -9,5 +9,5 @@ export default interface ITaskRepository {
 
   save(task: Task): Promise<Task>;
 
-  delete(task: Task): Promise<void>;
+  delete(taskId: number): Promise<void>;
 }

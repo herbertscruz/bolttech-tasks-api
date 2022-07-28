@@ -63,6 +63,7 @@ export class createTasksTable1658886258780 implements MigrationInterface {
           type: 'datetime',
           precision: 6,
           comment: 'Datetime when the task was completed',
+          isNullable: true,
         },
       ],
     });

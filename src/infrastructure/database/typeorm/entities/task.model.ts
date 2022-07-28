@@ -5,7 +5,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Task, TaskStatus } from '../../../../domain/project/project.entity';
+import Task, { TaskStatus } from '../../../../domain/task/task.entity';
 import IModel from '../model.interface';
 import ProjectModel from './project.model';
 

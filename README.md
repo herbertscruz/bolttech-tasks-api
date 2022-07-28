@@ -14,3 +14,9 @@ npm start
 ## Tools
 
 - [Adminer](http://localhost:8080/?server=db&username=root&db=bolttech_tasks);
+
+## Backlog
+
+- Implement email confirmation
+- Implement project pagination
+- Implement validation and filter endpoint data

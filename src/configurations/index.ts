@@ -40,6 +40,7 @@ const env = {
     E005: "User not allowed to change another user's password",
     E006: 'No token provided',
     E007: 'Invalid email or password',
+    E008: 'Project not found',
   },
   CONSTANTS: {},
 };

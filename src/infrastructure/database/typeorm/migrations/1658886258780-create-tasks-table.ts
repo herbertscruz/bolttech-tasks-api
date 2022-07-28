@@ -4,7 +4,7 @@ import {
   Table,
   TableForeignKey,
 } from 'typeorm';
-import { TaskStatus } from '../../../../domain/project/project.entity';
+import { TaskStatus } from '../../../../domain/task/task.entity';
 
 export class createTasksTable1658886258780 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -74,6 +74,7 @@ export class createTasksTable1658886258780 implements MigrationInterface {
       columnNames: ['projectId'],
       referencedTableName: 'projects',
       referencedColumnNames: ['id'],
+      onDelete: 'cascade',
     });
   }
 }

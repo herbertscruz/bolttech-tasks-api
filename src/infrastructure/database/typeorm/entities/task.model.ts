@@ -15,7 +15,7 @@ export default class TaskModel implements IModel<Task> {
   public id?: number;
 
   @Column()
-  public projectId!: string;
+  public projectId!: number;
 
   @Column()
   public description!: string;
@@ -25,6 +25,9 @@ export default class TaskModel implements IModel<Task> {
     enum: TaskStatus,
   })
   public status!: TaskStatus;
+
+  @Column()
+  public marked!: boolean;
 
   @CreateDateColumn()
   public createdAt?: Date;
@@ -40,6 +43,7 @@ export default class TaskModel implements IModel<Task> {
     this.projectId = entity.projectId;
     this.description = entity.description;
     this.status = entity.status;
+    this.marked = entity.marked;
     this.createdAt = entity.createdAt;
     this.completedIn = entity.completedIn;
     return this;
@@ -51,6 +55,7 @@ export default class TaskModel implements IModel<Task> {
       projectId: this.projectId,
       description: this.description,
       status: this.status,
+      marked: this.marked,
       createdAt: this.createdAt,
       completedIn: this.completedIn,
     });

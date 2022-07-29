@@ -52,6 +52,12 @@ export class createTasksTable1658886258780 implements MigrationInterface {
           comment: 'Invoice posting type',
         },
         {
+          name: 'marked',
+          type: 'boolean',
+          default: false,
+          comment: 'Task marking status',
+        },
+        {
           name: 'createdAt',
           type: 'datetime',
           precision: 6,

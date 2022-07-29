@@ -3,7 +3,7 @@ import Task from '../task/task.entity';
 export default class Project {
   readonly id?: number;
 
-  readonly userId!: string;
+  readonly userId!: number;
 
   readonly name!: string;
 
@@ -13,7 +13,7 @@ export default class Project {
 
   constructor(props: {
     id?: number;
-    userId: string;
+    userId: number;
     name: string;
     createdAt?: Date;
     tasks?: Task[];

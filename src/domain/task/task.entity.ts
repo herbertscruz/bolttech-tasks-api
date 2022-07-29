@@ -7,21 +7,24 @@ export enum TaskStatus {
 export default class Task {
   readonly id?: number;
 
-  readonly projectId!: string;
+  readonly projectId!: number;
 
   readonly description!: string;
 
   readonly status!: TaskStatus;
 
+  readonly marked!: boolean;
+
   readonly createdAt?: Date;
 
-  readonly completedIn?: Date;
+  public completedIn?: Date;
 
   constructor(props: {
     id?: number;
-    projectId: string;
+    projectId: number;
     description: string;
     status: TaskStatus;
+    marked?: boolean;
     createdAt?: Date;
     completedIn?: Date;
   }) {

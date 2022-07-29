@@ -1,4 +1,4 @@
-import Task from './task.entity';
+import Task, { TaskStatus } from './task.entity';
 import ITaskRepository from './task-repository.interface';
 import ValidationError from '../common/validation-error.exception';
 import env from '../../configurations';
@@ -35,6 +35,7 @@ export default class TaskService {
       });
 
       if (result) {
+        if (task.status === TaskStatus.DONE) task.completedIn = new Date();
         return this.taskRepository.save(Object.assign({}, result, task));
       }
     }

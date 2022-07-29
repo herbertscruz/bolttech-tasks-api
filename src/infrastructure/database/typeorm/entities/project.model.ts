@@ -17,7 +17,7 @@ export default class ProjectModel implements IModel<Project> {
   public id?: number;
 
   @Column()
-  public userId!: string;
+  public userId!: number;
 
   @Column()
   public name!: string;

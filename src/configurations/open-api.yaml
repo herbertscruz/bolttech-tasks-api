@@ -559,6 +559,28 @@ components:
         createdAt:
           type: string
           format: date-time
+        tasks:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              projectId:
+                type: number
+              description:
+                type: string
+              status:
+                type: string
+              marked:
+                type: boolean
+              createdAt:
+                type: string
+                format: date-time
+              completedIn:
+                type: string
+                nullable: true
+                format: date-time
     Projects:
       type: array
       items:
@@ -573,6 +595,28 @@ components:
           createdAt:
             type: string
             format: date-time
+          tasks:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: number
+                projectId:
+                  type: number
+                description:
+                  type: string
+                status:
+                  type: string
+                marked:
+                  type: boolean
+                createdAt:
+                  type: string
+                  format: date-time
+                completedIn:
+                  type: string
+                  nullable: true
+                  format: date-time
     Task:
       type: object
       properties:
@@ -584,6 +628,8 @@ components:
           type: string
         status:
           type: string
+        marked:
+          type: boolean
         createdAt:
           type: string
           format: date-time
@@ -604,6 +650,8 @@ components:
             type: string
           status:
             type: string
+          marked:
+            type: boolean
           createdAt:
             type: string
             format: date-time

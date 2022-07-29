@@ -80,6 +80,8 @@ class Task {
 
 ## Deploy
 
+- You may want to change the default settings for your application locally or in some environment. All environment variables are available in a `.env.example` file that can be renamed as possible in the [dotenv library](https://www.npmjs.com/package/dotenv).
+
 ## Others
 
 - You might want to use Swagger to do API tests. To get a user token, run the command below in the terminal.
@@ -87,8 +89,6 @@ class Task {
 ```sh
 npm run generate:token
 ```
-
-- You may want to change the default settings for your application locally or in some environment. All environment variables are available in a `.env.example` file that can be renamed as possible in the [dotenv library](https://www.npmjs.com/package/dotenv).
 
 ## Backlog
 

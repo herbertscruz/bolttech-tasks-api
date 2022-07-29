@@ -20,3 +20,4 @@ npm start
 - Implement email confirmation
 - Implement project pagination
 - Implement validation and filter endpoint data
+- Implement token destruction

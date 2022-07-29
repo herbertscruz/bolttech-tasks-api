@@ -28,7 +28,7 @@ export default class ProjectModel implements IModel<Project> {
   @ManyToOne(() => UserModel, (user) => user.tokens)
   public user!: UserModel;
 
-  @OneToMany(() => TaskModel, (task) => task.project)
+  @OneToMany(() => TaskModel, (task) => task.project, { eager: true })
   public tasks!: TaskModel[];
 
   toModel(entity: Project): this {
@@ -45,6 +45,7 @@ export default class ProjectModel implements IModel<Project> {
       userId: this.userId,
       name: this.name,
       createdAt: this.createdAt,
+      tasks: this.tasks?.map((task) => task.toEntity()),
     });
   }
 }

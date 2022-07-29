@@ -23,6 +23,11 @@ export default class UserService {
   }
 
   async createUser(user: User): Promise<void> {
+    const result = await this.userRepository.findOne({
+      where: { email: user.email },
+    });
+    if (result !== null) throw new ValidationError(env.ERROR.E013);
+
     user = omit(user, ['id', 'createdAt', 'updatedAt']);
     user = Object.assign({}, user, {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

@@ -7,7 +7,7 @@ dotenv.config({ path: `${__dirname}/.env.${nodeEnv}` });
 const env = {
   NODE_ENV: nodeEnv,
   API: {
-    PORT: Number(process.env.API_PORT) || 3000,
+    PORT: Number(process.env.API_PORT) || 3001,
     CRYPTO_SECRET: process.env.CRYPTO_SECRET || 'crypto_token',
     WEB_APP_URL: process.env.WEB_APP_URL || 'http://localhost:8080',
   },
@@ -45,6 +45,7 @@ const env = {
     E010: "User not allowed to delete tasks from another user's projects",
     E011: "User not allowed to save tasks from another user's projects",
     E012: "User not allowed to query tasks from another user's projects",
+    E013: 'User already exists with the email provided',
   },
   CONSTANTS: {},
 };
